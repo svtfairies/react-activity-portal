@@ -3,8 +3,8 @@ function Home({ onNavigate }) {
     { number: "01", title: "Login Authentication", description: "Validate a username and password while managing login and logout states.", page: "login" },
     { number: "02", title: "Student Grade Evaluation", description: "Enter a student's score and generate the appropriate grade remark.", page: "grade" },
     { number: "03", title: "Password Strength Checker", description: "Evaluate password length and receive instant strength feedback.", page: "password" },
-    { number: "04", title: "Hotel Room Reservation", description: "Calculate a hotel booking total using room type, nights, and number of guests.", page: "electricity" },
-    { number: "05", title: "Hotel Check-In Status", description: "Check a guest's arrival time and determine the reservation check-in status.", page: "attendance" },
+    { number: "04", title: "Electricity Bill Calculator", description: "Calculate an electricity bill using customer name, kWh consumption, and tiered rates.", page: "electricity" },
+    { number: "05", title: "Employee Attendance Checker", description: "Check an employee's decimal time-in and determine the attendance status.", page: "attendance" },
   ];
 
   return (

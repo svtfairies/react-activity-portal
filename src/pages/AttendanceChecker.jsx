@@ -1,48 +1,58 @@
 import { useState } from "react";
 
 function AttendanceChecker() {
-  const [checkInTime, setCheckInTime] = useState("");
+  const [employeeName, setEmployeeName] = useState("");
+  const [timeIn, setTimeIn] = useState("");
   const [result, setResult] = useState(null);
 
-  const checkReservation = (event) => {
+  const checkAttendance = (event) => {
     event.preventDefault();
 
-    if (!checkInTime) {
-      setResult({ label: "Please enter the guest check-in time.", type: "error" });
+    const arrivalTime = Number(timeIn);
+
+    if (employeeName.trim() === "" || timeIn === "") {
+      setResult({
+        label: "Missing Details",
+        type: "error",
+        detail: "Please enter the employee name and time in.",
+      });
       return;
     }
 
-    const [hours, minutes] = checkInTime.split(":").map(Number);
-    const totalMinutes = hours * 60 + minutes;
-    const earlyCheckInStart = 12 * 60;
-    const standardCheckIn = 14 * 60;
-    const lateCheckIn = 22 * 60;
+    if (Number.isNaN(arrivalTime) || arrivalTime < 0 || arrivalTime > 24) {
+      setResult({
+        label: "Invalid Time",
+        type: "error",
+        detail: "Please enter a valid decimal time from 0 to 24.",
+      });
+      return;
+    }
 
-    if (totalMinutes < earlyCheckInStart) {
+    if (arrivalTime <= 8) {
       setResult({
-        label: "Too Early",
-        type: "warning",
-        detail: "The room may not be ready yet. Ask front desk for availability.",
-      });
-    } else if (totalMinutes < standardCheckIn) {
-      setResult({
-        label: "Early Check-In",
-        type: "warning",
-        detail: "Guest may check in early if a room is already available.",
-      });
-    } else if (totalMinutes <= lateCheckIn) {
-      setResult({
-        label: "Confirmed Check-In",
+        label: "On Time",
         type: "success",
-        detail: "Guest can proceed with the hotel reservation check-in.",
+        detail: `${employeeName.trim()} arrived on time.`,
+      });
+    } else if (arrivalTime <= 9) {
+      setResult({
+        label: "Late",
+        type: "warning",
+        detail: `${employeeName.trim()} arrived late.`,
       });
     } else {
       setResult({
-        label: "Late Arrival",
+        label: "Very Late",
         type: "error",
-        detail: "Reservation should be verified before room assignment.",
+        detail: `${employeeName.trim()} is very late. Report to your supervisor.`,
       });
     }
+  };
+
+  const resetForm = () => {
+    setEmployeeName("");
+    setTimeIn("");
+    setResult(null);
   };
 
   return (
@@ -53,29 +63,53 @@ function AttendanceChecker() {
             <span className="text-xs font-bold uppercase tracking-[0.18em] text-[#5038f5]">
               Activity 5
             </span>
-            <h1 className="mt-2 text-2xl font-bold">Hotel Check-In Status</h1>
+            <h1 className="mt-2 text-2xl font-bold">
+              Employee Attendance Checker
+            </h1>
             <p className="mt-2 text-sm text-[#60708b]">
-              Check the guest&apos;s reservation arrival status.
+              Classify a decimal time-in value as On Time, Late, or Very Late.
             </p>
           </div>
 
-          <form onSubmit={checkReservation}>
+          <form onSubmit={checkAttendance}>
             <label className="mb-2 block text-sm font-semibold">
-              Guest Check-In Time
+              Employee Name
             </label>
             <input
-              type="time"
-              value={checkInTime}
-              onChange={(event) => setCheckInTime(event.target.value)}
+              type="text"
+              value={employeeName}
+              onChange={(event) => setEmployeeName(event.target.value)}
+              placeholder="Enter employee name"
               className="w-full rounded-lg border border-[#d6dce6] px-4 py-3 text-sm outline-none transition focus:border-[#5038f5] focus:ring-2 focus:ring-[#5038f5]/10"
             />
 
-            <button
-              type="submit"
-              className="mt-5 w-full rounded-lg bg-[#5038f5] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#4330df]"
-            >
-              Check Reservation
-            </button>
+            <label className="mb-2 mt-5 block text-sm font-semibold">Time In</label>
+            <input
+              type="number"
+              min="0"
+              max="24"
+              step="0.01"
+              value={timeIn}
+              onChange={(event) => setTimeIn(event.target.value)}
+              placeholder="Example: 8.5 = 8:30 AM"
+              className="w-full rounded-lg border border-[#d6dce6] px-4 py-3 text-sm outline-none transition focus:border-[#5038f5] focus:ring-2 focus:ring-[#5038f5]/10"
+            />
+
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              <button
+                type="submit"
+                className="rounded-lg bg-[#5038f5] px-4 py-3 text-sm font-bold text-white transition hover:bg-[#4330df]"
+              >
+                Check Attendance
+              </button>
+              <button
+                type="button"
+                onClick={resetForm}
+                className="rounded-lg border border-[#d6dce6] bg-white px-4 py-3 text-sm font-bold text-[#60708b] transition hover:bg-[#f4f6f9]"
+              >
+                Reset
+              </button>
+            </div>
           </form>
 
           {result && (
@@ -89,18 +123,17 @@ function AttendanceChecker() {
               }`}
             >
               <p className="text-xs font-semibold uppercase tracking-wider">
-                Reservation Status
+                Attendance Status
               </p>
               <p className="mt-1 text-xl font-bold">{result.label}</p>
-              {result.detail && <p className="mt-1 text-sm">{result.detail}</p>}
+              <p className="mt-1 text-sm">{result.detail}</p>
             </div>
           )}
 
           <div className="mt-6 rounded-xl bg-[#f7f8fb] p-4 text-xs text-[#60708b]">
-            <p>Before 12:00 PM: Too Early</p>
-            <p>12:00 PM to 1:59 PM: Early Check-In</p>
-            <p>2:00 PM to 10:00 PM: Confirmed Check-In</p>
-            <p>After 10:00 PM: Late Arrival</p>
+            <p>8.0 or below: On Time</p>
+            <p>Above 8.0 to 9.0: Late</p>
+            <p>Above 9.0: Very Late</p>
           </div>
         </div>
       </div>
