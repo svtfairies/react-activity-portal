@@ -35,7 +35,7 @@ function Navbar({ activePage, onNavigate }) {
             const isActive = activePage === item.page;
 
             return (
-              <button key={item.page} type="button" onClick={() => onNavigate(item.page)} className={`relative rounded-xl px-4 py-2.5 text-[12px] font-semibold transition-all duration-300 lg:px-5 ${isActive ? "bg-[#e5f4e9] text-[#287548] shadow-[0_4px_12px_rgba(40,117,72,0.08)]" : "text-[#657b6d] hover:bg-[#f3faf5] hover:text-[#287548]"}`}>
+              <button key={item.page} type="button" onClick={() => onNavigate(item.page)} className={`relative rounded-xl px-4 py-2.5 text-[12px] transition-all duration-300 lg:px-5 ${isActive ? "bg-[#e5f4e9] font-bold text-[#287548] shadow-[0_4px_12px_rgba(40,117,72,0.08)]" : "font-extrabold text-[#657b6d] hover:bg-[#f3faf5] hover:text-[#287548]"}`}>
                 {isActive && (
                   <span className="absolute bottom-1 left-1/2 h-1 w-5 -translate-x-1/2 rounded-full bg-[#3fa968]" />
                 )}
@@ -49,7 +49,7 @@ function Navbar({ activePage, onNavigate }) {
         </nav>
 
         <div className="md:hidden">
-          <button type="button" onClick={() => onNavigate(activePage === "home" ? "login" : "home")} className="flex h-10 items-center gap-2 rounded-xl bg-[#287548] px-4 text-xs font-bold text-white shadow-[0_6px_15px_rgba(40,117,72,0.2)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#195c38]">
+          <button type="button" onClick={() => onNavigate(activePage === "home" ? "login" : "home")} className="flex h-10 items-center gap-2 rounded-xl bg-[#287548] px-4 text-xs font-extrabold text-white shadow-[0_6px_15px_rgba(40,117,72,0.2)] transition duration-200 hover:-translate-y-0.5 hover:bg-[#195c38]">
             <span>
               {activePage === "home" ? "Activities" : "Home"}
             </span>
