@@ -3,8 +3,8 @@ function Home({ onNavigate }) {
     { number: "01", title: "Login Authentication", description: "Validate a username and password while managing login and logout states.", page: "login" },
     { number: "02", title: "Student Grade Evaluation", description: "Enter a student's score and generate the appropriate grade remark.", page: "grade" },
     { number: "03", title: "Password Strength Checker", description: "Evaluate password length and receive instant strength feedback.", page: "password" },
-    { number: "04", title: "Electricity Bill Calculator", description: "Calculate an electricity bill using consumption and tiered rates.", page: "electricity" },
-    { number: "05", title: "Employee Attendance Checker", description: "Check an employee's time-in and determine their attendance status.", page: "attendance" },
+    { number: "04", title: "Hotel Room Reservation", description: "Calculate a hotel booking total using room type, nights, and number of guests.", page: "electricity" },
+    { number: "05", title: "Hotel Check-In Status", description: "Check a guest's arrival time and determine the reservation check-in status.", page: "attendance" },
   ];
 
   return (
@@ -46,7 +46,7 @@ function Home({ onNavigate }) {
         </div>
 
         <div className="mt-12 grid max-w-6xl gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {activities.map((activity, index) => (
+          {activities.map((activity) => (
             <article key={activity.page} className="group relative flex min-h-62 flex-col overflow-hidden rounded-3xl bg-white p-6 shadow-[0_8px_28px_rgba(38,95,61,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_16px_35px_rgba(38,95,61,0.1)]">
               <div className="absolute right-0 top-0 h-28 w-28 translate-x-9 -translate-y-9 rounded-full bg-[#e1f2e6]/70 transition-transform duration-500 group-hover:scale-150" />
 
